@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xero</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #0052cc;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+        .nav-links li {
+            margin: 0 15px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #ffcc00;
+        }
+        .nav-buttons {
+            display: flex;
+        }
+        .nav-buttons a {
+            margin-left: 15px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #0052cc;
+            background: white;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .nav-buttons a:hover {
+            background: #ffcc00;
+            color: white;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 80px);
+            padding-top: 80px;
+        }
+        h1 {
+            font-size: 48px;
+            opacity: 0;
+            animation: fadeIn 2s forwards, moveDown 2s forwards;
+        }
+        p {
+            font-size: 24px;
+            opacity: 0;
+            animation: fadeIn 2s 1s forwards, moveUp 2s 1s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes moveDown {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        @keyframes moveUp {
+            from {
+                transform: translateY(50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        div {
+            display: inline-block;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.5s ease-in-out;
+        }
+        div:hover {
+            transform: scale(1);
+        }
+        .graphic-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        svg {
+            width: 100px;
+            height: 100px;
+            margin: 0 10px;
+            animation: rotate 5s infinite linear;
+        }
+        .graphic {
+            animation: bounce 2s infinite alternate;
+        }
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes bounce {
+            to {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#small-business">For Small Business</a></li>
+            <li><a href="#bookkeepers">For Bookkeepers & Accountants</a></li>
+            <li><a href="#support">Support</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <a href="#try">Try Xero for Free</a>
+            <a href="#login">Login</a>
+        </div>
+    </nav>
+    <div class="content">
+        <h1>Welcome to Xero</h1>
+        <p>Beautiful accounting software</p>
+        <div class="graphic-container">
+            <!-- SVG for calculator -->
+            <svg class="graphic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#fff">
+                <rect x="10" y="10" width="44" height="54" rx="6" ry="6" fill="#0052cc"/>
+                <rect x="15" y="15" width="34" height="8" fill="#fff"/>
+                <rect x="15" y="25" width="8" height="8" fill="#fff"/>
+                <rect x="25" y="25" width="8" height="8" fill="#fff"/>
+                <rect x="35" y="25" width="8" height="8" fill="#fff"/>
+                <rect x="15" y="35" width="8" height="8" fill="#fff"/>
+                <rect x="25" y="35" width="8" height="8" fill="#fff"/>
+                <rect x="35" y="35" width="8" height="8" fill="#fff"/>
+                <rect x="15" y="45" width="8" height="8" fill="#fff"/>
+                <rect x="25" y="45" width="18" height="8" fill="#fff"/>
+            </svg>
+            <!-- SVG for ledger -->
+            <svg class="graphic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#fff">
+                <rect x="12" y="8" width="40" height="48" rx="4" ry="4" fill="#0052cc"/>
+                <rect x="20" y="16" width="24" height="4" fill="#fff"/>
+                <rect x="20" y="24" width="24" height="4" fill="#fff"/>
+                <rect x="20" y="32" width="24" height="4" fill="#fff"/>
+                <rect x="20" y="40" width="24" height="4" fill="#fff"/>
+                <rect x="20" y="48" width="24" height="4" fill="#fff"/>
+            </svg>
+            <!-- SVG for money -->
+            <svg class="graphic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#fff">
+                <rect x="4" y="20" width="56" height="24" rx="4" ry="4" fill="#0052cc"/>
+                <circle cx="32" cy="32" r="10" fill="#fff"/>
+                <rect x="8" y="26" width="8" height="4" fill="#fff"/>
+                <rect x="8" y="34" width="8" height="4" fill="#fff"/>
+                <rect x="48" y="26" width="8" height="4" fill="#fff"/>
+                <rect x="48" y="34" width="8" height="4" fill="#fff"/>
+            </svg>
+        </div>
+    </div>
+</body>
+</html>

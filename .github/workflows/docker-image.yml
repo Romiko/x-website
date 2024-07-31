@@ -1,0 +1,87 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: false # Do not push during the pull request
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/nginx-xero:pr
+
+  publish:
+    if: github.ref == 'refs/heads/main' # Only run this job on push to main branch
+    runs-on: self-hosted
+    needs: build # Ensure this job runs after the build job
+    outputs:
+      version: ${{ steps.get_version.outputs.version }} # Define the output
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Get the version from the Git tag
+      id: get_version
+      run: |
+        git fetch --tags
+        TAG=$(git describe --tags --abbrev=0 || echo "")
+        if [ -z "$TAG" ]; then
+          NEW_TAG=$(git rev-parse --short HEAD)
+        else
+          NEW_TAG=$(echo $TAG | awk -F. -v OFS=. '{$NF++;print}')
+        fi
+        echo "New tag: $NEW_TAG"
+        echo "::set-output name=version::$NEW_TAG"
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/nginx-xero:latest
+          ${{ secrets.DOCKER_USERNAME }}/nginx-xero:${{ steps.get_version.outputs.version }}
+
+    - name: Logout from Docker Hub
+      run: docker logout
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: publish
+    steps:
+    - name: Send notification
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        payload: |
+          {
+            "channel": "#github-actions",
+            "text": ":tada: Docker image build and published successfully! :rocket: DevOps can deploy to K8. :whale: Tag: ${{ needs.publish.outputs.version }} :checkered_flag:"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
