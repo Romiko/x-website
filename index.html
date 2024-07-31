@@ -131,9 +131,23 @@
                 transform: translateY(-20px);
             }
         }
+        /* Maintenance Banner */
+        #maintenance-banner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
+    <div id="maintenance-banner">The website is under maintenance and will be fully operational soon.</div>
     <nav>
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
@@ -184,5 +198,13 @@
             </svg>
         </div>
     </div>
+    <script>
+        function toggleMaintenanceBanner(show) {
+            const banner = document.getElementById('maintenance-banner');
+            banner.style.display = show ? 'block' : 'none';
+        }
+        // Example: Toggle the maintenance banner on
+        toggleMaintenanceBanner(false);
+    </script>
 </body>
 </html>
